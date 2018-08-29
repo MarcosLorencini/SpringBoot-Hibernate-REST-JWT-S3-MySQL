@@ -21,6 +21,8 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 	
+	//CATEGORIAS TEM ZERO OU MAIS PRODUTOS
+	
 	//interrompe a referencia ciclica
 	
 	@JsonManagedReference //responsável por buscar os objetos

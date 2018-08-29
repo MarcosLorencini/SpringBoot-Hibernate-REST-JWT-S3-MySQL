@@ -21,7 +21,7 @@ public class CategoriaResource {
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		
 		Categoria obj = service.buscar(id);
-		
+		//caso retorne null lanca uma exception que é interceptada pelo ResourceExceptionHandler
 		return ResponseEntity.ok().body(obj); 
 		
 		
