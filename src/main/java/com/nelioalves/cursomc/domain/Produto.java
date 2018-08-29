@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Produto implements Serializable {
 	
@@ -34,7 +36,7 @@ public class Produto implements Serializable {
 	
 	public Produto() {}
 	
-
+	@JsonBackReference // não busca os objetos, a busca está sendo feita em Categoria.java
 	@ManyToMany
 	@JoinTable(name="PRODUTO_CATEGORIA",
 	   joinColumns = @JoinColumn(name = "produto_id"),
