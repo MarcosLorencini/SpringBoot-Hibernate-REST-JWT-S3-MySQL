@@ -5,12 +5,14 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	//atributo composto colocar @Embeddable na classe ItemPedidoPk
-	@EmbeddedId
+	@JsonIgnore//não vai ser serializado, nem o pedido nem o produto
+	@EmbeddedId//atributo composto colocar @Embeddable na classe ItemPedidoPk
 	private ItemPedidoPK id = new ItemPedidoPK();
 	
 	private Double desconto;
@@ -30,10 +32,12 @@ public class ItemPedido  implements Serializable {
 	
 	
 	//ter acesso ao Pedido e Produto fora da classe ItemPedido sem acessar primeiro a variável id e depois o pedido ou produto
+	@JsonIgnore//está fazendo a referencia ciclica, tudo q comeca com get entende-se que deve serializar
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
 	
+	//@JsonIgnore//o produto tem que aparecer no postman
 	public Produto getProduto() {
 		return id.getProduto();
 	}

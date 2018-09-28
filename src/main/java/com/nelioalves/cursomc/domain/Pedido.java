@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,13 +26,18 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat(pattern="dd/MM/yyyy hh:mm")
 	private Date instante;
 	
+	@JsonManagedReference//o pagamento vai ser serializado
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido" )//atrelado ao Pedido. Ex: Se o Pedido for apagado o pagamento tbm deve ser apagado
 	private Pagamento pagamento;
 	
-	//o pedido tem um cliente
-	@ManyToOne
+	
+	
+	@JsonManagedReference//permite o cliente ser serializado
+	@ManyToOne//o pedido tem um cliente
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
@@ -38,7 +46,7 @@ public class Pedido implements Serializable {
 	@JoinColumn(name="endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
 	
-	
+	//não precisa colocar @JsonManagedReference, pois na classe ItemPedido na propriedade ItemPedidoPK tem anotacao @JsonIgnore
 	//o pedido conhece os itens relacionados a ele
 	@OneToMany(mappedBy="id.pedido")
 	//"id.pedido" do outro lado no ItemPedido tem o obj id que é um obj aux que possue a ref para o pedido
