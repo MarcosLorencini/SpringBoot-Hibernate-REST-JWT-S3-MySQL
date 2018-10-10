@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -27,7 +27,7 @@ public class Estado implements Serializable {
 	
 	//ESTADO TEM VARIAS CIDADES
 	
-	@JsonBackReference //o estado não pode serializar as cidades 
+	@JsonIgnore //o estado não pode serializar as cidades 
 	@OneToMany(mappedBy="estado")//criar a cidade com estado intanciado
 	private List<Cidade> cidades = new ArrayList<>();
 

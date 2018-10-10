@@ -15,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nelioalves.cursomc.domain.enums.TipoCliente;
 
 @Entity
@@ -37,7 +37,6 @@ public class Cliente implements Serializable {
 	
 	//o cliente pode serializar os endereços, porém o endereco não pode serializar os clientes
 	//responsável por buscar os objetos
-	@JsonManagedReference 
 	@OneToMany(mappedBy="cliente")// do outro lado foi mapeado pelo campo cliente
 	private List<Endereco> endereco = new ArrayList<>();
 	
@@ -49,7 +48,7 @@ public class Cliente implements Serializable {
 	private Set<String> telefones = new HashSet<>();
 	
 	
-	@JsonBackReference//os pedidos do cliente não vão ser serializados
+	@JsonIgnore//os pedidos do cliente não vão ser serializados
 	@OneToMany(mappedBy="cliente")//o cliente tem varios pedidos
 	private List<Pedido> pedidos = new ArrayList<>();
 	
