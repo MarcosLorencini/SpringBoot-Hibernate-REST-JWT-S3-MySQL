@@ -18,9 +18,9 @@ public class PedidoResource {
 	private PedidoService service;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 		
-		Pedido obj = service.buscar(id);
+		Pedido obj = service.find(id);
 		//caso retorne null lanca uma exception que é interceptada pelo ResourceExceptionHandler
 		return ResponseEntity.ok().body(obj); 
 		
