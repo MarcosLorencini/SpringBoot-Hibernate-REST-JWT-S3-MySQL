@@ -23,7 +23,6 @@ public class CategoriaResource {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
-		
 		Categoria obj = service.find(id);
 		//caso retorne null lanca uma exception que é interceptada pelo ResourceExceptionHandler
 		return ResponseEntity.ok().body(obj); 
@@ -51,6 +50,15 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 		
 	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Categoria> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+		
+	}
+	
+	
 	
 	
 	
