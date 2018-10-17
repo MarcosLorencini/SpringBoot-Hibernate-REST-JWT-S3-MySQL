@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +41,8 @@ public class CategoriaResource {
 	//quando ocorre a inserção no banco por padrão o http retorna 201, tbm tem que retornar a uri do novo recurso criado(http://localhost:8080/categorias/) 
 	//@RequestBody converte o json no objeto Categotira
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj){
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto){
+		Categoria obj = service.fromDto(objDto);
 		//insere no banco e retorna o id do banco
 		obj = service.insert(obj);
 		//devolve http://localhost:8080/categorias/ e acrecenta o id
@@ -50,7 +53,8 @@ public class CategoriaResource {
 	//recebe o value="/{id} da categoria para ser atualizada
 	//recebe o obj para ser atualizado
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id){
+		Categoria obj = service.fromDto(objDto);
 		obj.setId(id);//garante que existe o id
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
