@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.nelioalves.cursomc.domain.Categoria;
+import com.nelioalves.cursomc.domain.Cliente;
 import com.nelioalves.cursomc.dto.CategoriaDTO;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
 import com.nelioalves.cursomc.service.exception.DataIntegrityException;
@@ -32,11 +33,22 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 	
+	
 	//o metodo save serve para inserir e tbm atualizar o obj a única diferença é o metodo obj.setId(null);
 	public Categoria update(Categoria obj) {
-		find(obj.getId());//busca o id no banco e caso não exista lanca uma exception
-		return repo.save(obj);
+		//deve buscar a categoria no banco de dados para conseguir atualizar todas as informações da classe categoria, se atualizar somente
+		//os campos do CategoriaDTO os outros campos na classe Categoria irão ficar vazio
+		Categoria newObj = find(obj.getId());//busca o id no banco e caso não exista lanca uma exception
+		//atualiza os dados que buscou no banco, novo objeto(newObj) com base no objeto que veio como argumento(obj)
+		upDateDate(newObj, obj);
+		return repo.save(newObj);
 	}
+	
+	private void upDateDate(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+		
+	}
+
 	
 	public void delete(Integer id) {
 		find(id);//caso o id não exista dispara uma exception

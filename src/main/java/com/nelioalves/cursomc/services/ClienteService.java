@@ -35,7 +35,6 @@ public class ClienteService {
 		public Cliente update(Cliente obj) {
 			//deve buscar o cliente no banco de dados para conseguir atualizar todas as informações da classe cliente, se atualizar somente
 			//os campos do clienteDTO os outros campos na classe Cliente irão ficar vazio
-			
 			Cliente newObj = find(obj.getId());//busca o id no banco e caso não exista lanca uma exception
 			//atualiza os dados que buscou no banco, novo objeto(newObj) com base no objeto que veio como argumento(obj)
 			upDateDate(newObj, obj);
