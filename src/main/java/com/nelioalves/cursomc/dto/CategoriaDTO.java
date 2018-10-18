@@ -2,7 +2,6 @@ package com.nelioalves.cursomc.dto;
 
 import java.io.Serializable;
 
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
