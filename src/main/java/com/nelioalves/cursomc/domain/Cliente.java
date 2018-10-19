@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -36,7 +37,8 @@ public class Cliente implements Serializable {
 	
 	//o cliente pode serializar os endereços, porém o endereco não pode serializar os clientes
 	//responsável por buscar os objetos
-	@OneToMany(mappedBy="cliente")// do outro lado foi mapeado pelo campo cliente
+	//cascade=CascadeType.ALL caso modifique o cliente vai ser refletido no endereco
+	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)// do outro lado foi mapeado pelo campo cliente
 	private List<Endereco> endereco = new ArrayList<>();
 	
 	

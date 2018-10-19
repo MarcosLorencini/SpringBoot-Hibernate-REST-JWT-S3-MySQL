@@ -65,7 +65,7 @@ public class ClienteService {
 			repo.deleteById(id);
 		}catch(DataIntegrityViolationException e) {
 			//tenho que lancar uma execpeiton minha quando lancar uma exception DataIntegrityViolationException
-			throw new DataIntegrityException("Não é possivel excluir porque há endtidades relacionadas");
+			throw new DataIntegrityException("Não é possivel excluir porque há pedidos relacionadas");
 			
 		}
 	}
