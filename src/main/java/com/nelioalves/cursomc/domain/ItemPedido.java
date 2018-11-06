@@ -30,6 +30,12 @@ public class ItemPedido  implements Serializable {
 		this.preco = preco;
 	}
 	
+	//calcula o subtotal dos pedidos
+	//começa com get para que ser reconhecido pelo json e ser serializado 
+	public double getSubTotal() {
+		return (preco - desconto) * quantidade;
+		
+	}
 	
 	//ter acesso ao Pedido e Produto fora da classe ItemPedido sem acessar primeiro a variável id e depois o pedido ou produto
 	@JsonIgnore//está fazendo a referencia ciclica, tudo q comeca com get entende-se que deve serializar
