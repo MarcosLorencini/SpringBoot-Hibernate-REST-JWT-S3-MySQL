@@ -43,6 +43,18 @@ public class ItemPedido  implements Serializable {
 		return id.getPedido();
 	}
 	
+	//intancia o ItemPedido e associa com o Pedido
+	//o framework usa o set não usa o construtor
+	public void setPedido(Pedido pedido) {
+		id.setPedido(pedido);
+	}
+	
+	//instacia o ItemPedido e associa com o Produto
+	//o framework usa o set não usa o construtor
+	public void setProduto(Produto produto) {
+		id.setProduto(produto);
+	}
+	
 	//@JsonIgnore//o produto tem que aparecer no postman
 	public Produto getProduto() {
 		return id.getProduto();

@@ -5,9 +5,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.nelioalves.cursomc.domain.enums.EstadoPagamento;
 
 @Entity
+//defina qual será o valor do campo adicional para ela, infomado na classe Pagamento
+@JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {
 	//não precis implementar o serializabel, está implementando no pai
 	private static final long serialVersionUID = 1L;
