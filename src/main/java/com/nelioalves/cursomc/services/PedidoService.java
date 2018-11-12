@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.nelioalves.cursomc.domain.ItemPedido;
 import com.nelioalves.cursomc.domain.PagamentoComBoleto;
 import com.nelioalves.cursomc.domain.Pedido;
+import com.nelioalves.cursomc.domain.Produto;
 import com.nelioalves.cursomc.domain.enums.EstadoPagamento;
+import com.nelioalves.cursomc.repositories.ClienteRepository;
 import com.nelioalves.cursomc.repositories.ItemPedidoRepository;
 import com.nelioalves.cursomc.repositories.PagamentoRepository;
 import com.nelioalves.cursomc.repositories.PedidoRepository;
@@ -34,6 +36,9 @@ public class PedidoService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
 	
 	
 	public Pedido find(Integer id) {
@@ -47,6 +52,8 @@ public class PedidoService {
 		obj.setId(null);
 		//nova data com o instate atual
 		obj.setInstante(new Date());
+		//usa o id para buscar o cliente inteiro
+		obj.setCliente(clienteRepository.findById(obj.getCliente().getId()).get());
 		//pedido novo pagameto está pendente
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		//o pagamento tem que conhecer o pdeido dele
@@ -65,13 +72,19 @@ public class PedidoService {
 		for(ItemPedido ip : obj.getItens()){
 			//setando o valor 0.0 no campo desconto de ItemPedido
 			ip.setDesconto(0.0);
+			//seta como o produto do ItemPedido
+			ip.setProduto(produtoRepository.findById(ip.getProduto().getId()).get());
+			//pega o preço do item pedido
+			ip.setPreco(ip.getProduto().getPreco());
 			//o preço tem que pegar do produto para setar no preço de ItemPedido
 			ip.setPreco(produtoRepository.findById(ip.getProduto().getId()).get().getPreco());
+			
 			//associa o ItemPedido com o pedido que está sendo inserido
 			ip.setPedido(obj);
 		}
 		//salva os ItemPedido no banco
 		itemPedidoRepository.saveAll(obj.getItens());
+		System.out.println(obj);
 		return obj;
 		
 	}
