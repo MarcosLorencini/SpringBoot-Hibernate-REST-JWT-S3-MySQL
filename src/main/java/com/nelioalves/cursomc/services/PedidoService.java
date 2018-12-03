@@ -88,7 +88,7 @@ public class PedidoService {
 		//salva os ItemPedido no banco
 		itemPedidoRepository.saveAll(obj.getItens());
 		//chama o envio de email
-		emailService.sendOrderConfirmationEmail(obj);
+		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
 		
 	}
