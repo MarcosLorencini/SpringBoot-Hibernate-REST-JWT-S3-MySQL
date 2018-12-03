@@ -43,6 +43,8 @@ public class TestConfig {
 	//PerdidoService, pois o Email Service é uma interface.
 	//O Spring vai devolver uma instancia da interface EmailService retornado a instancia do 
 	//MockEmailService
+	//quando rodar o sistema no perfil dev(@Profile("test")) vai ser instanciado o MockEmailService()
+
 	@Bean
 	public EmailService emailService() {
 		return new MockEmailService();
