@@ -36,6 +36,9 @@ public class Cliente implements Serializable {
 	//vamos armazenar o tipo cliente como codigo, o TipoCliente vai ser armazenado como inteiro
 	private Integer tipo;
 	
+	@JsonIgnore // para não mostrar quando recuperar o cliente
+	private String senha;
+	
 	//cliente tem varios enderecos
 	
 	//o cliente pode serializar os endereços, porém o endereco não pode serializar os clientes
@@ -58,14 +61,17 @@ public class Cliente implements Serializable {
 	
 	public Cliente() {
 	}
+	
 	//porém para o mundo extorno o dado vai continar sendo TipoCliente
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+	//contrutor serve para facilitar a criação do cliente
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = (tipo==null) ? null : tipo.getCod();
+		this.senha = senha;
 	}
 
 	public Integer getId() {
@@ -132,6 +138,12 @@ public class Cliente implements Serializable {
 		this.pedidos = pedidos;
 	}
 	
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 	
 	
 	

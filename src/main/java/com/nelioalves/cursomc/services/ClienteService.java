@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nelioalves.cursomc.domain.Cidade;
@@ -24,6 +25,10 @@ import com.nelioalves.cursomc.service.exception.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
+	
+	//na criacao da senha a mesma é criptografada
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	@Autowired
 	private ClienteRepository repo;
@@ -83,7 +88,7 @@ public class ClienteService {
 	
 	//instancia um cliente a partir de um dto
 	public Cliente fromDto(ClienteDTO objDto) {
-		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null);
 	}
 	
 	
@@ -97,7 +102,7 @@ public class ClienteService {
 	//instancia um cliente a partir de um dto
 	//o cliente tem que ter pelo menos 1 telefone 1 endereco. O endereco tem que ter pelo menos uma ciadade
 	public Cliente fromDto(ClienteNewDTO objDto) {
-		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()), pe.encode(objDto.getSenha()));
 		//pega a cidade do banco de dados
 		Cidade cid = cidadeRepository.findById(objDto.getCidadeId()).get();
 		 //O endereco tem que ter pelo menos um cliente e uma cidade
