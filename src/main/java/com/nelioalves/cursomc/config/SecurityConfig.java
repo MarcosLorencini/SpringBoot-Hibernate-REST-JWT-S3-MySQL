@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	//catalogos de produtos e categorias são liberados
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
-			"/categorias/**"
+			"/categorias/**",
+			"/clientes/**"
 	};
 	
 	//sobrescrever o metodo do WebSecurityConfigurerAdapter

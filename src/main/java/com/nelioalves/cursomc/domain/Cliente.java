@@ -5,18 +5,21 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nelioalves.cursomc.domain.enums.Perfil;
 import com.nelioalves.cursomc.domain.enums.TipoCliente;
 
 @Entity
@@ -54,12 +57,21 @@ public class Cliente implements Serializable {
 	@CollectionTable(name="TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 	
+	//quando recuperar o cliente obrigatoriamente recupera os perfis
+	 @ElementCollection(fetch=FetchType.EAGER)
+	 @CollectionTable(name="PERFIS")
+	 private Set<Integer> perfis = new HashSet<>();
+	
 	
 	@JsonIgnore//os pedidos do cliente não vão ser serializados
 	@OneToMany(mappedBy="cliente")//o cliente tem varios pedidos
 	private List<Pedido> pedidos = new ArrayList<>();
 	
+	
+	//todo o usuario que for criado por padrão sera um cliente
 	public Cliente() {
+		//todo o usuario que for criado por padrão sera um cliente
+		addPerfil(Perfil.CLIENTE);
 	}
 	
 	//porém para o mundo extorno o dado vai continar sendo TipoCliente
@@ -72,6 +84,7 @@ public class Cliente implements Serializable {
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = (tipo==null) ? null : tipo.getCod();
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE);//todo o usuario que for criado por padrão sera um cliente
 	}
 
 	public Integer getId() {
@@ -143,6 +156,17 @@ public class Cliente implements Serializable {
 	}
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	//recupera os perfil do cliente
+	public Set<Perfil> getPerfis() {
+		//converte o numero inteiro para o Enum Perfil
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+	//add o código do perfil
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
 	}
 	
 	
