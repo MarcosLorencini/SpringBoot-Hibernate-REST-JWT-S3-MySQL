@@ -4,18 +4,23 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.nelioalves.cursomc.domain.Cliente;
 import com.nelioalves.cursomc.domain.ItemPedido;
 import com.nelioalves.cursomc.domain.PagamentoComBoleto;
 import com.nelioalves.cursomc.domain.Pedido;
-import com.nelioalves.cursomc.domain.Produto;
 import com.nelioalves.cursomc.domain.enums.EstadoPagamento;
 import com.nelioalves.cursomc.repositories.ClienteRepository;
 import com.nelioalves.cursomc.repositories.ItemPedidoRepository;
 import com.nelioalves.cursomc.repositories.PagamentoRepository;
 import com.nelioalves.cursomc.repositories.PedidoRepository;
 import com.nelioalves.cursomc.repositories.ProdutoRepository;
+import com.nelioalves.cursomc.security.UserSS;
+import com.nelioalves.cursomc.service.exception.AuthorizationException;
 import com.nelioalves.cursomc.service.exception.ObjectNotFoundException;
 
 @Service
@@ -92,6 +97,23 @@ public class PedidoService {
 		return obj;
 		
 	}
+	
+		//paginação das pedidos
+		//page, tamanhodapagina, direcao e camposparaordenar
+		//busca paginada
+		//pega o usuario logado e buscar os pedidos somente deste usuario
+		public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+			UserSS user = UserService.authenticated();
+			if(user == null) {
+				throw new AuthorizationException("Acesso Negado");
+			}
+			
+			PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+			//retorna os pedidos do cliente logado
+			Cliente cliente = clienteRepository.findById(user.getId()).get();
+			//busca o cliente paginado
+			return repo.findByCliente(cliente, pageRequest);
+		}
 	
 	
 
