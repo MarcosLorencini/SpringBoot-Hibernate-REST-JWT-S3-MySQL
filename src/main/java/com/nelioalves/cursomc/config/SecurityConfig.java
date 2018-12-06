@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable();
 		//todos os caminhos que estiverem no vetor pode ser permitido para todo o resto exige autenticacao
 		http.authorizeRequests()
-		.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()//permite o cliente realizar o cadastro no site
+			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()//permite o cliente realizar o cadastro no site
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()//só permite o get que estão na lista
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.anyRequest().authenticated();
