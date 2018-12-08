@@ -53,7 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	// o cliente não está logado, porém ele pode se cadastrar no site
 	private static final String[] PUBLIC_MATCHERS_POST = {
-			"/clientes/**",
+			"/clientes",
+			"/clientes/picture",
 			"/auth/forgot/**"//cliente esqueceu a senha envia uma nova senha
 	};
 	
