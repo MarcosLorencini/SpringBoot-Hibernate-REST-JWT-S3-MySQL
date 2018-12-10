@@ -137,7 +137,22 @@ public class ClienteService {
 	
 	//fazer o upload da imagem
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+		
+		//pega o cliente logado para salvar a url da imagem no cliente
+		UserSS user = UserService.authenticated();
+		if(user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		URI uri = s3Service.uploadFile(multipartFile);
+		
+		//salva a url da  imagem do cliente no banco
+		Cliente clie = repo.findById(user.getId()).get();
+		clie.setImageUrl(uri.toString());
+		repo.save(clie);
+		
+		return uri;
+				
 	}
 
 }

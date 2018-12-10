@@ -67,6 +67,9 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy="cliente")//o cliente tem varios pedidos
 	private List<Pedido> pedidos = new ArrayList<>();
 	
+	//salvando a url da imagem no cliente
+	private String imageUrl;
+	
 	
 	//todo o usuario que for criado por padrão sera um cliente
 	public Cliente() {
@@ -158,6 +161,14 @@ public class Cliente implements Serializable {
 		this.senha = senha;
 	}
 	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	
 	//recupera os perfil do cliente
 	public Set<Perfil> getPerfis() {
 		//converte o numero inteiro para o Enum Perfil
@@ -194,6 +205,8 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 	
 	
 	
