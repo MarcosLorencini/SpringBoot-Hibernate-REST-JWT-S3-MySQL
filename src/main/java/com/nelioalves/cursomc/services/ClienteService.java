@@ -110,6 +110,25 @@ public class ClienteService {
 		return repo.findAll();
 	}
 	
+	//endpoint que busca o cliente por email
+	//para que possa buscar os dados do cliente por email
+	public Cliente findByEmail(String email) {
+		//usuario que está autenticado
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		//chama o findbyemail do repositorio
+		Cliente obj = repo.findByEmail(email);
+		if(obj == null) {
+			throw new ObjectNotFoundException("Objeto não encontrado! Id: "+user.getId()+", Tipo: "+Cliente.class.getName());
+		}
+		return obj;
+		
+	}
+	
+	
+	
 	//paginação dos clientes
 	//page, tamanhodapagina, direcao e camposparaordenar
 	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
