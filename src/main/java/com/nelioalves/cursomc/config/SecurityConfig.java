@@ -46,9 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	//caminhos somente de leitura, irão recuperar os dados 
 	//catalogos de produtos e categorias são liberados
+	//os estados tbm não precisam o token os estado e tudo que vier a frente na url está liberado para ser acessado no bd
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
-			"/categorias/**"
+			"/categorias/**",
+			"/estados/**"
 	};
 	
 	// o cliente não está logado, porém ele pode se cadastrar no site
