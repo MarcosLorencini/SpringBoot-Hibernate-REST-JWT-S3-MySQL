@@ -51,7 +51,7 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 			//se ocorrer erro e insere o erro no framework
 			//na classe ResourceExceptionHandler ela é percorrida novamente para verficar se existem erros incluido aqui neste for 
 			context.disableDefaultConstraintViolation();
-			context.buildConstraintViolationWithTemplate(e.getMessagem()).addPropertyNode(e.getFieldName())
+			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())
 					.addConstraintViolation();
 		}
 		//se lista for vazia não existe nenhum erro
